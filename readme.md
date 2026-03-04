@@ -88,7 +88,7 @@ Other options include:
 
 ## copyup
 
-The package also provides a `copyup` command, identical to `copyfiles`, but with `--up` defaulting to `1`.
+The package also provides a `copyup` command, identical to `copyfiles`, but with `--up` defaulting to `1` (equivalent to running `copyfiles -u 1 ...`).
 
 ## Programmatic API
 
