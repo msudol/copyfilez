@@ -5,12 +5,13 @@ This package is a fork of `copyfiles` with security and maintenance updates:
 - **What changed:** upgraded vulnerable dependencies (notably `glob`) and modernized supporting tooling so the API/CLI continue to work on current Node.js versions.
 - Original repository: [https://github.com/calvinmetcalf/copyfiles](https://github.com/calvinmetcalf/copyfiles)
 
-### Install
+## Install
 
 ```bash
 npm install copyfiles-fixed
 ```
-### Command Line
+
+## Command line
 
 ```bash
   Usage: copyfiles-fixed [options] inFile [more files ...] outDirectory
@@ -28,83 +29,80 @@ npm install copyfiles-fixed
     -h, --help     Show help                                             [boolean]
 ```
 
-copy some files, give it a bunch of arguments, (which can include globs), the last one
-is the out directory (which it will create if necessary).  Note: on windows globs must be **double quoted**, everybody else can quote however they please.
+Copy one or more files (including globs); the last argument is the output directory, which will be created if needed. On Windows, globs must be **double quoted**. Other shells may use single or double quotes.
 
 ```bash
 copyfiles-fixed foo foobar foo/bar/*.js out
 ```
 
-you now have a directory called out, with the files foo and foobar in it, it also has a directory named foo with a directory named
-bar in it that has all the files from foo/bar that match the glob.
+This produces an `out` directory containing `foo`, `foobar`, and a nested `foo/bar` folder with all matches from `foo/bar/*.js`.
 
-If all the files are in a folder that you don't want in the path out path, ex:
+If you want to omit a leading folder from the output path, use `--up`:
 
 ```bash
 copyfiles-fixed something/*.js out
 ```
 
-which would put all the js files in `out/something`, you can use the `--up` (or `-u`) option
+This would place the JS files under `out/something`. To drop that folder, use:
 
 ```bash
 copyfiles-fixed -u 1 something/*.js out
 ```
 
-which would put all the js files in `out`
-
-you can also just do -f which will flatten all the output into one directory, so with files ./foo/a.txt and ./foo/bar/b.txt
+To flatten all outputs into one directory:
 
 ```bash
 copyfiles-fixed -f ./foo/*.txt ./foo/bar/*.txt out
 ```
 
-will put a.txt and b.txt into out
+This puts `a.txt` and `b.txt` directly into `out`.
 
-if your terminal doesn't support globstars then you can quote them
+If your terminal doesn’t support globstars, quote the pattern:
 
 ```bash
 copyfiles-fixed -f ./foo/**/*.txt out
 ```
 
-does not work by default on a mac
-
-but
+This does not work by default on macOS, but quoting does:
 
 ```bash
 copyfiles-fixed -f "./foo/**/*.txt" out
 ```
 
-does.
+You can also quote globstars within mixed inputs:
 
-You could quote globstars as a part of input:
 ```bash
 copyfiles-fixed some.json "./some_folder/*.json" ./dist/ && echo 'JSON files copied.'
 ```
 
-You can use the -e option to exclude some files from the pattern, so to exclude all files ending in .test.js you could do
+To exclude files, pass one or more `-e` patterns:
 
 ```bash
 copyfiles-fixed -e "**/*.test.js" -f ./foo/**/*.js out
 ```
 
-Other options include
-
-- `-a` or `--all` which includes files that start with a dot.
-- `-s` or `--soft` to soft copy, which will not overwrite existing files.
-- `-F` or `--follow` which follows symbolinks
+Other options include:
+- `-a` or `--all` to include dotfiles.
+- `-s` or `--soft` to skip overwriting existing files.
+- `-F` or `--follow` to follow symbolic links.
 
 ## copyup
 
-also creates a `copyup` command which is identical to `copyfiles` but `-up` defaults to 1
+The package also provides a `copyup` command, identical to `copyfiles`, but with `--up` defaulting to `1`.
 
-### Programic API
+## Programmatic API
 
 ```js
 var copyfiles = require('copyfiles-fixed');
 
 copyfiles([paths], opt, callback);
 ```
-takes an array of paths, last one is the destination path, also takes an optional argument which the -u option if a number, otherwise if it's `true` it's the flat option or if it is an object it is a hash of the various options (the long version e.g. up, all, flat, exclude, error, verbose, follow, and soft)  
 
-### Tilde support for home directory
-when the src/dest path start with tilde for home directory under windows, please make sure -u or -f is added in options or use copyup command. if not you will get `Error: Illegal characters in path.`
+`paths` is an array where the last entry is the destination path. The optional `opt` argument can be:
+- a number (equivalent to `--up`),
+- `true` (equivalent to `--flat`), or
+- an options object (e.g. `up`, `all`, `flat`, `exclude`, `error`, `verbose`, `follow`, `soft`).
+
+## Tilde support for home directory
+
+If source or destination paths begin with a tilde (`~`) on Windows, make sure to include `-u` or `-f` in options (or use the `copyup` command). Otherwise you may see `Error: Illegal characters in path.`
