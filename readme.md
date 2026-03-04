@@ -1,8 +1,9 @@
 ## About this fork
 
-This package is a fork of `copyfiles` with a security fix:
-- Updated `glob` dependency to fix security issues.
-- Repository: [https://github.com/Agrinden/copyfiles](https://github.com/Agrinden/copyfiles)
+This package is a fork of `copyfiles` with security and maintenance updates:
+- **Why this fork:** the original project has been largely inactive for ~5 years and carries known dependency vulnerabilities. The intermediate fork we pulled from was updated about a year ago but has since gone dormant as well.
+- **What changed:** upgraded vulnerable dependencies (notably `glob`) and modernized supporting tooling so the API/CLI continue to work on current Node.js versions.
+- Original repository: [https://github.com/calvinmetcalf/copyfiles](https://github.com/calvinmetcalf/copyfiles)
 
 ### Install
 
