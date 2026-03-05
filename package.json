@@ -1,6 +1,6 @@
 {
   "name": "copyfilez",
-  "version": "2.4.6",
+  "version": "2.4.7",
   "description": "Fork of copyfiles-fixed, which is a fork of copyfiles with glob security fix",
   "main": "index.js",
   "bin": {
