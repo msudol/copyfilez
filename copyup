@@ -1,3 +1,4 @@
 #!/usr/bin/env node
 'use strict';
+process.argv[1] = __filename;
 require('./copyfiles');
